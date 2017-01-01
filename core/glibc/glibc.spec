@@ -31,9 +31,9 @@ mkdir -v %{_builddir}/build
 %build
 cd       %{_builddir}/build
 ../%{name}-%{version}/configure \
-			 --prefix=/usr          \
-             --libdir=/usr/lib \
-             --libexecdir=/usr/lib \
+             --prefix=%{_prefix}          \
+             --libdir=%{_libdir} \
+             --libexecdir=%{_libdir} \
              --with-headers=/usr/include \
              --enable-kernel=2.6.32 \
              --enable-obsolete-rpc \
