@@ -61,12 +61,32 @@ install -v -Dm644 ../%{name}-%{version}/nscd/nscd.service %{buildroot}%{_lib}/sy
 install -m 0644 %{_sourcedir}/{nsswitch.conf,ld.so.conf} %{buildroot}%{_sysconfdir}
 mkdir -pv %{buildroot}%{_sysconfdir}/ld.so.conf.d
 mkdir -pv %{buildroot}%{_libdir}/locale
-make root_install=%{buildroot} localedata/install-locales
+strip $STRIP_BINARIES %{buildroot}/sbin/{ldconfig,sln} \
+                      %{buildroot}%{_bindir}/{gencat,getconf,getent,iconv,locale} \
+                      %{buildroot}%{_bindir}/{localedef,pcprofiledump,rpcgen,sprof} \
+                      %{buildroot}%{_libdir}/getconf/* \
+                      %{buildroot}%{_prefix}/{iconvconfig,nscd}
+strip $STRIP_STATIC %{buildroot}%{_libdir}/*.a 
+strip $STRIP_SHARED %{buildroot}%{_lib}/{libanl,libBrokenLocale,libcidn,libcrypt}-*.so \
+                    %{buildroot}%{_lib}/libnss_{compat,dns,files,hesiod,nis,nisplus}-*.so \
+                    %{buildroot}%{_lib}/{libdl,libm,libnsl,libresolv,librt,libutil}-*.so \
+                    %{buildroot}%{_lib}/{libmemusage,libpcprofile,libSegFault}.so \
+                    %{buildroot}%{_libdir}/{audit,gconv}/*.so \
+                    %{buildroot}%{_lib}/libmvec-*.so
+
+install -m644 %{_sourcedir}/locale.gen.txt  %{buildroot}%{_sysconfdir}/locale.gen
+sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
+%{_sourcedir}/%{name}-%{version}/localedata/SUPPORTED >>  %{buildroot}%{_sysconfdir}/locale.gen
+
+install -m755 %{_sourcedir}/locale-gen %{buildroot}%{_prefix}/bin
 
 %files
 %defattr(-,root,root)
 %{buildroot}/*
 
 %changelog
+*   Sun Jan 1 2017 Egor Mikhailov <xeneloid@yandex.ru> 2.24-1
+-   Strip binaries and libs + add locale gen
+
 *   Sun Jan 1 2017 Egor Mikhailov <xeneloid@yandex.ru> 2.24-1
 -   Initial package
