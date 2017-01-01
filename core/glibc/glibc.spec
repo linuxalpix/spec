@@ -36,7 +36,7 @@ cd       %{_builddir}/build
              --prefix=%{_prefix}          \
              --libdir=%{_libdir} \
              --libexecdir=%{_libdir} \
-             --with-headers=/usr/include \
+             --with-headers=%{_prefix}/include \
              --enable-kernel=2.6.32 \
              --enable-obsolete-rpc \
              --disable-silent-rules \
@@ -87,8 +87,5 @@ install -m755 %{_sourcedir}/locale-gen %{buildroot}%{_prefix}/bin
 %{buildroot}/*
 
 %changelog
-*   Sun Jan 1 2017 Egor Mikhailov <xeneloid@yandex.ru> 2.24-1
--   Strip binaries and libs + add locale gen
-
 *   Sun Jan 1 2017 Egor Mikhailov <xeneloid@yandex.ru> 2.24-1
 -   Initial package
