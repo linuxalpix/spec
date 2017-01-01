@@ -17,6 +17,8 @@ Requires: tzdata
 Source0: http://ftp.gnu.org/gnu/glibc/%{name}-%{version}.tar.xz
 Source1: https://raw.githubusercontent.com/linuxalpix/sources/master/glibc/ld.so.conf
 Source2: https://raw.githubusercontent.com/linuxalpix/sources/master/glibc/nsswitch.conf
+Source3: https://raw.githubusercontent.com/linuxalpix/sources/master/glibc/locale-gen
+Source4: https://raw.githubusercontent.com/linuxalpix/sources/master/glibc/locale.gen.txt
 
 %description
 This library provides the basic routines for allocating memory,
